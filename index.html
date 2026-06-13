@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alaska Family Trip Planner</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <nav class="topbar">
+          <div class="brand">
+            <span class="brand-mark">AK</span>
+            <div>
+              <p class="eyebrow">Family road trip planner</p>
+              <h1>Alaska by road, paced for real life</h1>
+            </div>
+          </div>
+          <a class="button ghost" href="#planner">Build your version</a>
+        </nav>
+
+        <section class="hero-grid">
+          <div class="hero-copy">
+            <p class="kicker">Anchorage base - Denali - Fairbanks - Seward</p>
+            <p class="lede">
+              A classic 7 to 8 day Alaska trip builder for families flying in
+              from Dallas, with scenic mileage, smart pacing, and a live trip
+              summary you can tweak in seconds.
+            </p>
+            <div class="hero-actions">
+              <a class="button" href="#planner">Open planner</a>
+              <a class="button secondary" href="#itinerary">View 8-day route</a>
+            </div>
+          </div>
+
+          <aside class="snapshot-card">
+            <p class="eyebrow">Quick snapshot</p>
+            <div class="snapshot-stat">
+              <span>Recommended trip</span>
+              <strong>8 days</strong>
+            </div>
+            <div class="snapshot-stat">
+              <span>Road distance</span>
+              <strong>~852 miles</strong>
+            </div>
+            <div class="snapshot-stat">
+              <span>Dallas to Anchorage</span>
+              <strong>7 to 10 hrs</strong>
+            </div>
+            <div class="snapshot-stat">
+              <span>Best fit</span>
+              <strong>Families wanting big scenery with manageable drives</strong>
+            </div>
+          </aside>
+        </section>
+      </header>
+
+      <main>
+        <section class="section">
+          <div class="section-heading">
+            <p class="eyebrow">Drive legs</p>
+            <h2>Core Alaska road trip routes from Anchorage</h2>
+          </div>
+          <div class="route-grid" id="routes"></div>
+        </section>
+
+        <section class="section itinerary-section" id="itinerary">
+          <div class="section-heading">
+            <p class="eyebrow">Suggested pacing</p>
+            <h2>Popular 8-day Alaska itinerary</h2>
+          </div>
+          <div class="timeline" id="timeline"></div>
+        </section>
+
+        <section class="section planner-section" id="planner">
+          <div class="section-heading">
+            <p class="eyebrow">Trip builder</p>
+            <h2>Shape the trip around your family</h2>
+          </div>
+
+          <div class="planner-layout">
+            <form class="planner-card" id="planner-form">
+              <label>
+                Travel days
+                <input id="days" type="range" min="7" max="10" value="8" />
+                <span class="field-value" id="days-value">8 days</span>
+              </label>
+
+              <label>
+                Travelers
+                <input id="travelers" type="range" min="2" max="8" value="4" />
+                <span class="field-value" id="travelers-value">4 people</span>
+              </label>
+
+              <label>
+                Hotel style
+                <select id="hotel-tier">
+                  <option value="190">Comfort</option>
+                  <option value="290" selected>Mid-range</option>
+                  <option value="430">Premium</option>
+                </select>
+              </label>
+
+              <label>
+                Cruise add-on
+                <select id="cruise-choice">
+                  <option value="0">Skip cruises</option>
+                  <option value="120">Whittier Prince William Sound</option>
+                  <option value="190" selected>Seward Kenai Fjords</option>
+                  <option value="260">Both cruise days</option>
+                </select>
+              </label>
+
+              <label class="checkbox-row">
+                <input id="include-fairbanks" type="checkbox" checked />
+                <span>Include Fairbanks leg</span>
+              </label>
+
+              <label class="checkbox-row">
+                <input id="include-homer" type="checkbox" />
+                <span>Swap Seward extension for Homer</span>
+              </label>
+            </form>
+
+            <aside class="summary-card">
+              <p class="eyebrow">Live summary</p>
+              <h3 id="summary-title">8-day family loop</h3>
+              <div class="summary-list">
+                <div>
+                  <span>Estimated drive miles</span>
+                  <strong id="drive-miles">852 miles</strong>
+                </div>
+                <div>
+                  <span>Hotel nights</span>
+                  <strong id="hotel-nights">7 nights</strong>
+                </div>
+                <div>
+                  <span>Approximate total budget</span>
+                  <strong id="budget-total">$4,750</strong>
+                </div>
+                <div>
+                  <span>Best use case</span>
+                  <strong id="trip-fit">Balanced family adventure</strong>
+                </div>
+              </div>
+              <p class="summary-note" id="summary-note">
+                Denali, Fairbanks, and Seward give you the classic first-time
+                Alaska mix: wildlife, long mountain drives, and a glacier cruise.
+              </p>
+            </aside>
+          </div>
+        </section>
+
+        <section class="section tips-section">
+          <div class="tips-card">
+            <p class="eyebrow">Dallas flight note</p>
+            <h2>Fly into Anchorage, rent one car, and let the scenery do the work.</h2>
+            <p>
+              Dallas to Anchorage is roughly 3,050 miles, usually 7 to 8 hours
+              nonstop or 8 to 10 hours with a connection. This planner assumes
+              you start the driving portion after arrival in Anchorage.
+            </p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
