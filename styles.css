@@ -74,6 +74,7 @@ body {
 
 .topbar,
 .hero-grid,
+.map-layout,
 .planner-layout,
 .section-heading,
 .summary-list,
@@ -237,6 +238,171 @@ h2 {
   gap: 16px;
 }
 
+.map-layout {
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.map-card,
+.map-legend-card,
+.guidance-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.map-card {
+  padding: 18px;
+}
+
+.map-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.map-chip {
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(20, 37, 36, 0.06);
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.map-chip.active {
+  background: rgba(15, 118, 110, 0.12);
+  color: var(--accent);
+}
+
+.trip-map {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.terrain-line {
+  fill: none;
+  stroke: rgba(15, 118, 110, 0.12);
+  stroke-width: 16;
+  stroke-linecap: round;
+}
+
+.route-line {
+  fill: none;
+  stroke: rgba(20, 37, 36, 0.16);
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 10 10;
+  opacity: 0.65;
+}
+
+.route-line.active {
+  opacity: 1;
+}
+
+.route-line.coastal,
+.legend-dot.core {
+  stroke: var(--accent);
+  background: var(--accent);
+}
+
+.route-line#route-fairbanks,
+.legend-dot.north {
+  stroke: #0f4c5c;
+  background: #0f4c5c;
+}
+
+.route-line#route-homer,
+.legend-dot.peninsula {
+  stroke: var(--accent-2);
+  background: var(--accent-2);
+}
+
+.route-line.short-hop {
+  stroke-width: 6;
+  stroke: #6b7280;
+}
+
+.map-stop circle {
+  fill: #fff;
+  stroke: rgba(20, 37, 36, 0.18);
+  stroke-width: 4;
+}
+
+.map-stop text {
+  font-size: 18px;
+  font-weight: 800;
+  fill: var(--ink);
+}
+
+.map-stop.optional {
+  opacity: 0.55;
+}
+
+.map-stop.active {
+  opacity: 1;
+}
+
+.map-stop.accent circle,
+.map-stop.active circle {
+  stroke: var(--accent);
+}
+
+.map-notes {
+  display: grid;
+  gap: 18px;
+}
+
+.map-legend-card,
+.guidance-card {
+  padding: 20px;
+}
+
+.legend-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.legend-list div {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  gap: 10px;
+  align-items: center;
+}
+
+.legend-list strong {
+  font-size: 0.95rem;
+}
+
+.legend-list span:last-child {
+  color: var(--muted);
+}
+
+.legend-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+.guidance-card h3 {
+  margin-top: 10px;
+  font-size: 1.35rem;
+}
+
+.guidance-list {
+  margin: 16px 0 0;
+  padding-left: 18px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
 .route-card {
   padding: 20px;
 }
@@ -366,6 +532,24 @@ select {
   line-height: 1.65;
 }
 
+.summary-helpers {
+  display: grid;
+  gap: 14px;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.summary-helpers div {
+  display: grid;
+  gap: 4px;
+}
+
+.summary-helpers span {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
 .tips-card {
   padding: 28px;
   background:
@@ -386,6 +570,7 @@ select {
 
 @media (max-width: 960px) {
   .hero-grid,
+  .map-layout,
   .planner-layout,
   .route-grid,
   .timeline {
@@ -424,5 +609,9 @@ select {
   .summary-list div,
   .route-meta {
     flex-direction: column;
+  }
+
+  .legend-list div {
+    grid-template-columns: auto 1fr;
   }
 }
