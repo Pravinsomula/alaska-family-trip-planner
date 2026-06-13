@@ -57,6 +57,115 @@
       </header>
 
       <main>
+        <section class="section map-section">
+          <div class="section-heading">
+            <p class="eyebrow">Visual route guide</p>
+            <h2>See the trip before you drive it</h2>
+          </div>
+          <div class="map-layout">
+            <div class="map-card">
+              <div class="map-toolbar">
+                <span class="map-chip active" id="map-mode-label">Classic loop</span>
+                <span class="map-chip">Anchorage start and finish</span>
+              </div>
+              <svg
+                class="trip-map"
+                viewBox="0 0 760 500"
+                role="img"
+                aria-labelledby="map-title map-desc"
+              >
+                <title id="map-title">Static Alaska road trip map</title>
+                <desc id="map-desc">
+                  A simplified illustrated map showing Anchorage, Denali,
+                  Fairbanks, Seward, Whittier, and Homer with route lines.
+                </desc>
+
+                <defs>
+                  <linearGradient id="waterFill" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#dff5f1" />
+                    <stop offset="100%" stop-color="#c7e8e2" />
+                  </linearGradient>
+                  <linearGradient id="landFill" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#fdfefe" />
+                    <stop offset="100%" stop-color="#eef5f2" />
+                  </linearGradient>
+                </defs>
+
+                <rect x="0" y="0" width="760" height="500" rx="30" fill="url(#waterFill)" />
+                <path
+                  d="M140 76C206 34 297 29 381 52C455 72 531 112 585 162C619 194 649 243 660 288C666 316 663 349 641 365C610 387 563 380 531 400C498 421 476 457 438 468C372 487 306 447 245 451C195 455 143 485 103 456C70 432 65 385 77 347C92 301 127 263 138 220C151 169 105 99 140 76Z"
+                  fill="url(#landFill)"
+                  stroke="rgba(20,37,36,0.1)"
+                  stroke-width="4"
+                />
+                <path
+                  d="M250 150C286 116 336 92 392 88C447 84 499 107 544 139"
+                  class="terrain-line"
+                />
+                <path
+                  d="M241 220C303 188 371 177 434 186C493 194 547 224 590 269"
+                  class="terrain-line"
+                />
+                <path
+                  d="M197 312C256 290 315 286 370 298C430 311 485 340 522 382"
+                  class="terrain-line"
+                />
+
+                <path id="route-fairbanks" class="route-line active" d="M236 309 L306 205 L488 137 L314 322 L434 399" />
+                <path id="route-seward" class="route-line active coastal" d="M314 322 L434 399" />
+                <path id="route-homer" class="route-line optional" d="M314 322 L215 432" />
+                <path id="route-whittier" class="route-line optional short-hop" d="M314 322 L373 361" />
+
+                <g id="map-stop-anchorage" class="map-stop active">
+                  <circle cx="314" cy="322" r="14" />
+                  <text x="336" y="326">Anchorage</text>
+                </g>
+                <g id="map-stop-denali" class="map-stop active">
+                  <circle cx="306" cy="205" r="12" />
+                  <text x="326" y="208">Denali</text>
+                </g>
+                <g id="map-stop-fairbanks" class="map-stop active">
+                  <circle cx="488" cy="137" r="12" />
+                  <text x="508" y="141">Fairbanks</text>
+                </g>
+                <g id="map-stop-seward" class="map-stop active accent">
+                  <circle cx="434" cy="399" r="12" />
+                  <text x="454" y="403">Seward</text>
+                </g>
+                <g id="map-stop-whittier" class="map-stop optional">
+                  <circle cx="373" cy="361" r="10" />
+                  <text x="390" y="365">Whittier</text>
+                </g>
+                <g id="map-stop-homer" class="map-stop optional">
+                  <circle cx="215" cy="432" r="10" />
+                  <text x="234" y="436">Homer</text>
+                </g>
+              </svg>
+            </div>
+
+            <aside class="map-notes">
+              <div class="map-legend-card">
+                <p class="eyebrow">Map legend</p>
+                <div class="legend-list">
+                  <div><span class="legend-dot core"></span><strong>Core stops</strong><span>Anchorage, Denali, Seward</span></div>
+                  <div><span class="legend-dot north"></span><strong>Extended north loop</strong><span>Fairbanks add-on</span></div>
+                  <div><span class="legend-dot peninsula"></span><strong>Peninsula option</strong><span>Homer swap</span></div>
+                </div>
+              </div>
+
+              <div class="guidance-card">
+                <p class="eyebrow">Traveler clarity</p>
+                <h3 id="guidance-title">How this trip flows</h3>
+                <ul class="guidance-list" id="guidance-list">
+                  <li>Land in Anchorage and recover before the long scenic driving starts.</li>
+                  <li>Head north first for Denali, then continue to Fairbanks if you want the full classic loop.</li>
+                  <li>Return to Anchorage before shifting south to Seward for the easiest glacier-cruise finish.</li>
+                </ul>
+              </div>
+            </aside>
+          </div>
+        </section>
+
         <section class="section">
           <div class="section-heading">
             <p class="eyebrow">Drive legs</p>
@@ -148,6 +257,16 @@
                 Denali, Fairbanks, and Seward give you the classic first-time
                 Alaska mix: wildlife, long mountain drives, and a glacier cruise.
               </p>
+              <div class="summary-helpers">
+                <div>
+                  <span>Driving rhythm</span>
+                  <strong id="drive-rhythm">Long northbound days, easier coastal finish</strong>
+                </div>
+                <div>
+                  <span>Traveler tip</span>
+                  <strong id="traveler-tip">Book the Seward cruise day near the end for the smoothest family pacing.</strong>
+                </div>
+              </div>
             </aside>
           </div>
         </section>
