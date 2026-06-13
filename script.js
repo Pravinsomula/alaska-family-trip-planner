@@ -65,6 +65,44 @@ const itinerary = [
   },
 ];
 
+const routeLegs = {
+  anchorageDenali: {
+    label: "Anchorage to Denali",
+    miles: 240,
+    time: "4 to 5 hours",
+  },
+  denaliFairbanks: {
+    label: "Denali to Fairbanks",
+    miles: 125,
+    time: "2 to 2.5 hours",
+  },
+  denaliAnchorage: {
+    label: "Denali to Anchorage",
+    miles: 240,
+    time: "4 to 5 hours",
+  },
+  fairbanksAnchorage: {
+    label: "Fairbanks to Anchorage",
+    miles: 360,
+    time: "6 to 7 hours",
+  },
+  anchorageSeward: {
+    label: "Anchorage to Seward",
+    miles: 127,
+    time: "2.5 to 3 hours",
+  },
+  anchorageWhittier: {
+    label: "Anchorage to Whittier",
+    miles: 60,
+    time: "1.5 hours",
+  },
+  anchorageHomer: {
+    label: "Anchorage to Homer",
+    miles: 220,
+    time: "4.5 to 5 hours",
+  },
+};
+
 const routeContainer = document.querySelector("#routes");
 const timelineContainer = document.querySelector("#timeline");
 
@@ -111,6 +149,7 @@ const fields = {
   driveMiles: document.querySelector("#drive-miles"),
   hotelNights: document.querySelector("#hotel-nights"),
   budgetTotal: document.querySelector("#budget-total"),
+  fuelTotal: document.querySelector("#fuel-total"),
   tripFit: document.querySelector("#trip-fit"),
   summaryNote: document.querySelector("#summary-note"),
   driveRhythm: document.querySelector("#drive-rhythm"),
@@ -126,6 +165,13 @@ const fields = {
   stopSeward: document.querySelector("#map-stop-seward"),
   stopHomer: document.querySelector("#map-stop-homer"),
   stopWhittier: document.querySelector("#map-stop-whittier"),
+  flightCost: document.querySelector("#flight-cost"),
+  rentalCost: document.querySelector("#rental-cost"),
+  fuelPrice: document.querySelector("#fuel-price"),
+  mpg: document.querySelector("#mpg"),
+  foodCost: document.querySelector("#food-cost"),
+  costGrid: document.querySelector("#cost-grid"),
+  legCostList: document.querySelector("#leg-cost-list"),
 };
 
 function setActiveState(node, active) {
@@ -141,13 +187,54 @@ function formatCurrency(value) {
   }).format(value);
 }
 
+function renderCostBreakdown(items) {
+  fields.costGrid.innerHTML = items
+    .map(
+      (item) => `
+        <div class="cost-item">
+          <span>${item.label}</span>
+          <strong>${formatCurrency(item.value)}</strong>
+        </div>
+      `
+    )
+    .join("");
+}
+
+function renderLegCosts(legs, fuelPrice, mpg) {
+  fields.legCostList.innerHTML = legs
+    .map((leg) => {
+      const gallons = leg.miles / mpg;
+      const fuelCost = gallons * fuelPrice;
+      return `
+        <div class="leg-cost-item">
+          <p>${leg.label}</p>
+          <div class="leg-cost-meta">
+            <span>${leg.miles} miles</span>
+            <span>${leg.time}</span>
+            <strong>${formatCurrency(fuelCost)} fuel</strong>
+          </div>
+        </div>
+      `;
+    })
+    .join("");
+}
+
 function computeTrip() {
   const days = Number(fields.days.value);
   const travelers = Number(fields.travelers.value);
   const hotelNightly = Number(fields.hotelTier.value);
   const cruisePerPerson = Number(fields.cruiseChoice.value);
+  const flightPerTraveler = Number(fields.flightCost.value);
+  const rentalPerDay = Number(fields.rentalCost.value);
+  const fuelPrice = Number(fields.fuelPrice.value);
+  const mpg = Math.max(Number(fields.mpg.value), 5);
+  const foodPerTravelerPerDay = Number(fields.foodCost.value);
   const includeFairbanks = fields.includeFairbanks.checked;
   const includeHomer = fields.includeHomer.checked;
+  let activeLegs = [
+    routeLegs.anchorageDenali,
+    routeLegs.anchorageSeward,
+  ];
 
   let driveMiles = 240 + 127;
   let fit = "Easy scenic sampler";
@@ -165,6 +252,12 @@ function computeTrip() {
 
   if (includeFairbanks) {
     driveMiles += 125 + 360;
+    activeLegs = [
+      routeLegs.anchorageDenali,
+      routeLegs.denaliFairbanks,
+      routeLegs.fairbanksAnchorage,
+      routeLegs.anchorageSeward,
+    ];
     fit = "Balanced family adventure";
     note =
       "Denali, Fairbanks, and Seward give you the classic first-time Alaska mix: wildlife, long mountain drives, and a glacier cruise.";
@@ -178,6 +271,11 @@ function computeTrip() {
     ];
   } else {
     driveMiles += 240;
+    activeLegs = [
+      routeLegs.anchorageDenali,
+      routeLegs.denaliAnchorage,
+      routeLegs.anchorageSeward,
+    ];
     rhythm = "Moderate driving with more recovery time between scenic stops";
     travelerTip =
       "Skipping Fairbanks creates more room for slower mornings, extra hikes, or a Whittier cruise detour.";
@@ -185,6 +283,18 @@ function computeTrip() {
 
   if (includeHomer) {
     driveMiles = includeFairbanks ? 240 + 125 + 360 + 220 : 240 + 240 + 220;
+    activeLegs = includeFairbanks
+      ? [
+          routeLegs.anchorageDenali,
+          routeLegs.denaliFairbanks,
+          routeLegs.fairbanksAnchorage,
+          routeLegs.anchorageHomer,
+        ]
+      : [
+          routeLegs.anchorageDenali,
+          routeLegs.denaliAnchorage,
+          routeLegs.anchorageHomer,
+        ];
     fit = "Long-drive peninsula version";
     note =
       "Homer adds a deeper Kenai Peninsula feel, but the drive is longer and the plan works best for families comfortable with bigger road days.";
@@ -207,12 +317,12 @@ function computeTrip() {
       : "Shorter family loop";
 
   const hotelNights = Math.max(days - 1, 6);
-  const flightEstimate = travelers * 640;
+  const flightEstimate = travelers * flightPerTraveler;
   const hotelEstimate = hotelNights * hotelNightly;
-  const rentalEstimate = days * 115;
-  const gasEstimate = driveMiles * 0.22;
+  const rentalEstimate = days * rentalPerDay;
+  const gasEstimate = (driveMiles / mpg) * fuelPrice;
   const cruiseEstimate = travelers * cruisePerPerson;
-  const foodEstimate = days * travelers * 38;
+  const foodEstimate = days * travelers * foodPerTravelerPerDay;
   const total = flightEstimate + hotelEstimate + rentalEstimate + gasEstimate + cruiseEstimate + foodEstimate;
 
   fields.daysValue.textContent = `${days} days`;
@@ -221,6 +331,7 @@ function computeTrip() {
   fields.driveMiles.textContent = `${Math.round(driveMiles)} miles`;
   fields.hotelNights.textContent = `${hotelNights} nights`;
   fields.budgetTotal.textContent = formatCurrency(total);
+  fields.fuelTotal.textContent = formatCurrency(gasEstimate);
   fields.tripFit.textContent = fit;
   fields.summaryNote.textContent = note;
   fields.driveRhythm.textContent = rhythm;
@@ -237,6 +348,17 @@ function computeTrip() {
   setActiveState(fields.stopSeward, !includeHomer);
   setActiveState(fields.routeWhittier, whittierActive);
   setActiveState(fields.stopWhittier, whittierActive);
+
+  renderCostBreakdown([
+    { label: "Flights", value: flightEstimate },
+    { label: "Hotels", value: hotelEstimate },
+    { label: "Rental car", value: rentalEstimate },
+    { label: "Fuel", value: gasEstimate },
+    { label: "Food", value: foodEstimate },
+    { label: "Cruises", value: cruiseEstimate },
+  ]);
+
+  renderLegCosts(activeLegs, fuelPrice, mpg);
 }
 
 renderRoutes();
