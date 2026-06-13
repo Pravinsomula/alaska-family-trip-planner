@@ -230,6 +230,35 @@
                 <input id="include-homer" type="checkbox" />
                 <span>Swap Seward extension for Homer</span>
               </label>
+
+              <div class="assumption-group">
+                <p class="eyebrow">Cost assumptions</p>
+
+                <label>
+                  Flight cost per traveler
+                  <input id="flight-cost" type="number" min="0" step="10" value="640" />
+                </label>
+
+                <label>
+                  Rental car per day
+                  <input id="rental-cost" type="number" min="0" step="5" value="115" />
+                </label>
+
+                <label>
+                  Fuel price per gallon
+                  <input id="fuel-price" type="number" min="0" step="0.01" value="4.35" />
+                </label>
+
+                <label>
+                  Average miles per gallon
+                  <input id="mpg" type="number" min="5" step="1" value="24" />
+                </label>
+
+                <label>
+                  Food per traveler per day
+                  <input id="food-cost" type="number" min="0" step="1" value="38" />
+                </label>
+              </div>
             </form>
 
             <aside class="summary-card">
@@ -247,6 +276,10 @@
                 <div>
                   <span>Approximate total budget</span>
                   <strong id="budget-total">$4,750</strong>
+                </div>
+                <div>
+                  <span>Fuel estimate</span>
+                  <strong id="fuel-total">$154</strong>
                 </div>
                 <div>
                   <span>Best use case</span>
@@ -271,6 +304,23 @@
           </div>
         </section>
 
+        <section class="section">
+          <div class="section-heading">
+            <p class="eyebrow">Budget tracker</p>
+            <h2>See where the trip money goes</h2>
+          </div>
+          <div class="cost-layout">
+            <div class="cost-card">
+              <h3>Cost breakdown</h3>
+              <div class="cost-grid" id="cost-grid"></div>
+            </div>
+            <div class="cost-card">
+              <h3>Drive leg cost view</h3>
+              <div class="leg-cost-list" id="leg-cost-list"></div>
+            </div>
+          </div>
+        </section>
+
         <section class="section tips-section">
           <div class="tips-card">
             <p class="eyebrow">Dallas flight note</p>
@@ -279,6 +329,11 @@
               Dallas to Anchorage is roughly 3,050 miles, usually 7 to 8 hours
               nonstop or 8 to 10 hours with a connection. This planner assumes
               you start the driving portion after arrival in Anchorage.
+            </p>
+            <p>
+              For live fuel updates later, this planner can be connected to the
+              U.S. Energy Information Administration open data API while keeping
+              flights, hotels, and cruise numbers editable for trip planning.
             </p>
           </div>
         </section>
